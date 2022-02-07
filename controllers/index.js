@@ -1,7 +1,7 @@
-const getTransactions = require('./getTransactionByIdController')
-const getTransactionById = require('./getTransactionByIdController')
+const getAllController = require('./getAllController')
+const getByIdController = require('./getByIdController')
 
 module.exports = {
-  getTransactions,
-  getTransactionById,
+  getAllController,
+  getByIdController,
 }
