@@ -3,10 +3,10 @@ const cors = require('cors')
 const mongoose = require('mongoose')
 const transactionsRouter = require('./routes/api/transactions')
 
-DB_HOST =
-  'mongodb+srv://alexander:mongoDB00140014@bitmediadb.dgvoh.mongodb.net/bitmed?retryWrites=true&w=majority'
-
 require('dotenv').config()
+
+const { DB_HOST } = process.env
+
 mongoose
   .connect(DB_HOST)
   .then(() => console.log('BitLab Database connected'))
