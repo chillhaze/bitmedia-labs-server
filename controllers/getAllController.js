@@ -18,7 +18,7 @@ const getAllController = async (req, res) => {
 
   const count = await Transaction.count()
 
-  if (transactions.length !== count) {
+  if (transactions && transactions.length !== count) {
     console.log('length is differ')
     Transaction.deleteMany({})
     Transaction.insertMany(transactions)
