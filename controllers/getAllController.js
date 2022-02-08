@@ -1,9 +1,11 @@
-const { Transaction } = require('../models')
 const axios = require('axios')
 require('dotenv').config()
+const { Transaction } = require('../models')
 const { API_KEY } = process.env
 
-axios.defaults.baseURL = `https://api.etherscan.io`
+const BASE_URL = 'https://api.etherscan.io'
+
+axios.defaults.baseURL = `${BASE_URL}`
 
 const getAllController = async (req, res) => {
   const blockNumberData = await axios.get(
@@ -14,21 +16,23 @@ const getAllController = async (req, res) => {
   const { data } = await axios.get(
     `/api?module=proxy&action=eth_getBlockByNumber&tag=${recentBlockNumber}&boolean=true&apikey=${API_KEY}`,
   )
-  const transactions = data.result.transactions
 
-  const count = await Transaction.count()
+  const blockNumberInfo = data.result
+  // console.log(blockNumberInfo)
+
+  // const count = await Transaction.count()
   const previousTransaction = await Transaction.findOne({})
 
-  if (count > 0 && previousTransaction.blockNumber !== recentBlockNumber) {
+  if (previousTransaction.blockNumber !== recentBlockNumber) {
     console.log('collection is differ!')
 
     await Transaction.deleteMany({
       blockNumber: previousTransaction.blockNumber,
     })
 
-    await Transaction.insertMany(transactions)
+    await Transaction.insertMany(blockNumberInfo)
     // await Transaction.deleteMany({
-    //   blockNumber: '0xd82291',
+    //   blockNumber: '0xd825cb',
     // })
 
     const result = await Transaction.find({})
@@ -41,7 +45,7 @@ const getAllController = async (req, res) => {
       },
     })
   } else {
-    await Transaction.insertMany(transactions)
+    await Transaction.insertMany(blockNumberInfo)
 
     const result = await Transaction.find({})
 
