@@ -9,30 +9,50 @@ const getAllController = async (req, res) => {
   const blockNumberData = await axios.get(
     `/api?module=proxy&action=eth_blockNumber&apikey=${API_KEY}`,
   )
-  const blockNumber = blockNumberData.data.result
+  const recentBlockNumber = blockNumberData.data.result
 
   const { data } = await axios.get(
-    `/api?module=proxy&action=eth_getBlockByNumber&tag=${blockNumber}&boolean=true&apikey=${API_KEY}`,
+    `/api?module=proxy&action=eth_getBlockByNumber&tag=${recentBlockNumber}&boolean=true&apikey=${API_KEY}`,
   )
   const transactions = data.result.transactions
 
   const count = await Transaction.count()
+  const previousTransaction = await Transaction.findOne({})
 
-  if (transactions && transactions.length !== count) {
-    console.log('length is differ')
-    Transaction.deleteMany({})
-    Transaction.insertMany(transactions)
+  if (count > 0 && previousTransaction.blockNumber !== recentBlockNumber) {
+    console.log('collection is differ!')
+
+    await Transaction.deleteMany({
+      blockNumber: previousTransaction.blockNumber,
+    })
+
+    await Transaction.insertMany(transactions)
+    // await Transaction.deleteMany({
+    //   blockNumber: '0xd82291',
+    // })
+
+    const result = await Transaction.find({})
+
+    res.status(200).json({
+      status: 'success',
+      code: 200,
+      data: {
+        result,
+      },
+    })
+  } else {
+    await Transaction.insertMany(transactions)
+
+    const result = await Transaction.find({})
+
+    res.status(200).json({
+      status: 'success',
+      code: 200,
+      data: {
+        result,
+      },
+    })
   }
-
-  const result = await Transaction.find({})
-
-  res.status(200).json({
-    status: 'success',
-    code: 200,
-    data: {
-      result,
-    },
-  })
 }
 
 module.exports = getAllController
