@@ -23,7 +23,8 @@ const getAllController = async (req, res) => {
 
   // Get previous block number in collection
   const previousTransaction = await Transaction.findOne({})
-  // const count = await Transaction.count()
+  console.log(previousTransaction)
+  const count = await Transaction.count()
 
   // if (count >= 10) {
   //   const firstTransaction = await Transaction.findOne({})
@@ -32,28 +33,59 @@ const getAllController = async (req, res) => {
   //   })
   // }
 
-  if (previousTransaction.blockNumber !== recentBlockNumber) {
+  if (count === 0) {
+    await Transaction.insertMany(blockNumberInfo)
+
+    const result = await Transaction.find({}, '', {
+      skip,
+      limit: Number(limit),
+    })
+
+    res.status(200).json({
+      status: 'success',
+      code: 200,
+      data: {
+        result,
+      },
+    })
+  } else if (previousTransaction.blockNumber !== recentBlockNumber) {
     // Delete transactions if recent block not equal block number in collection
     await Transaction.deleteMany({
       blockNumber: previousTransaction.blockNumber,
     })
+
+    // Insert transactions in collection
+    await Transaction.insertMany(blockNumberInfo)
+
+    const result = await Transaction.find({}, '', {
+      skip,
+      limit: Number(limit),
+    })
+
+    res.status(200).json({
+      status: 'success',
+      code: 200,
+      data: {
+        result,
+      },
+    })
   }
 
   // Insert transactions in collection
-  await Transaction.insertMany(blockNumberInfo)
+  // await Transaction.insertMany(blockNumberInfo)
   // await Transaction.deleteMany({
   //   blockNumber: '0xd825cb',
   // })
 
-  const result = await Transaction.find({}, '', { skip, limit: Number(limit) })
+  // const result = await Transaction.find({}, '', { skip, limit: Number(limit) })
 
-  res.status(200).json({
-    status: 'success',
-    code: 200,
-    data: {
-      result,
-    },
-  })
+  // res.status(200).json({
+  //   status: 'success',
+  //   code: 200,
+  //   data: {
+  //     result,
+  //   },
+  // })
 }
 
 module.exports = getAllController
