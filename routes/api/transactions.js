@@ -1,11 +1,12 @@
 const express = require('express')
 const router = express.Router()
 
+const { joiSchema } = require('../../models/transaction')
 const { ctrlWrapper, validation } = require('../../middlewares')
-const { transactionsSchema } = require('../../schemas')
 const { getAllController, getByIdController } = require('../../controllers')
 
-const validateMiddleware = validation(transactionsSchema)
+// use validation middleware with post/put requests - validation(joiSchema)
+// router.post('/', validation(joiSchema), ctrlWrapper(getAllController))
 
 router.get('/', ctrlWrapper(getAllController))
 router.get('/:id', ctrlWrapper(getByIdController))

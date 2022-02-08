@@ -14,8 +14,8 @@ app.use(logger(formatsLogger))
 app.use(cors())
 app.use(express.json())
 
-// Routs
-app.use('/api', transactionsRouter)
+// Routes
+app.use('/api/transactions', transactionsRouter)
 
 // const { DB_HOST, PORT = 3000 } = process.env
 

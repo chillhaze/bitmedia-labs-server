@@ -1,179 +1,199 @@
 const { Schema, model, SchemaTypes } = require('mongoose')
+const Joi = require('joi')
 
 // transaction schema
 const transactionSchema = Schema(
   {
-    baseFeePerGas: {
+    // _id: {
+    //   type: SchemaTypes.ObjectId,
+    //   required: [true, 'Unknown transaction id'],
+    // },
+    blockHash: {
       type: String,
+      required: [true, 'Unknown transaction blockHash'],
+      trim: true,
     },
-    difficulty: {
+    blockNumber: {
       type: String,
-      required: [true, 'Unknown block difficulty'],
+      required: [true, 'Unknown transaction blockNumber'],
     },
-    extraData: {
+    from: {
       type: String,
-      required: [true, 'Unknown block extraData'],
+      required: [true, 'Unknown transaction from'],
     },
-    gasLimit: {
+    gas: {
       type: String,
-      required: [true, 'Unknown block gasLimit'],
+      required: [true, 'Unknown transaction gas'],
     },
-    gasUsed: {
+    gasPrice: {
       type: String,
-      required: [true, 'Unknown block gasUsed'],
+      required: [true, 'Unknown transaction gasPrice'],
+    },
+    maxFeePerGas: {
+      type: String,
+      // required: [true, 'Unknown transaction maxFeePerGas'],
+    },
+    maxPriorityFeePerGas: {
+      type: String,
+      // required: [true, 'Unknown transaction maxPriorityFeePerGas'],
     },
     hash: {
       type: String,
-      required: [true, 'Unknown block hash'],
+      required: [true, 'Unknown transaction hash'],
     },
-    logsBloom: {
+    input: {
       type: String,
-      required: [true, 'Unknown block logsBloom'],
-    },
-    miner: {
-      type: String,
-      required: [true, 'Unknown block miner'],
-    },
-    mixHash: {
-      type: String,
-      required: [true, 'Unknown block mixHash'],
+      required: [true, 'Unknown transaction input'],
     },
     nonce: {
       type: String,
-      required: [true, 'Unknown block nonce'],
+      required: [true, 'Unknown transaction nonce'],
     },
-    number: {
+    to: {
       type: String,
-      required: [true, 'Unknown block number'],
+      // required: [true, 'Unknown transaction to'],
     },
-    parentHash: {
+    transactionIndex: {
       type: String,
-      required: [true, 'Unknown block parentHash'],
+      required: [true, 'Unknown transaction transactionIndex'],
     },
-    receiptsRoot: {
+    value: {
       type: String,
-      required: [true, 'Unknown block receiptsRoot'],
+      required: [true, 'Unknown transaction value'],
     },
-    sha3Uncles: {
+    type: {
       type: String,
-      required: [true, 'Unknown block sha3Uncles'],
+      required: [true, 'Unknown transaction type'],
     },
-    size: {
+    accessList: {
       type: Array,
-      required: [true, 'Unknown block size'],
+      required: [true, 'Unknown transaction accessList'],
     },
-    stateRoot: {
+    chainId: {
       type: String,
-      required: [true, 'Unknown block stateRoot'],
+      // required: [true, 'Unknown transaction chainId'],
     },
-    timestamp: {
+    v: {
       type: String,
-      required: [true, 'Unknown block timestamp'],
     },
-    totalDifficulty: {
+    r: {
       type: String,
-      required: [true, 'Unknown block totalDifficulty'],
     },
-    transactions: {
-      type: Array,
-      required: [true, 'Unknown block transactions array'],
-    },
-    transactionsRoot: {
+    s: {
       type: String,
-      required: [true, 'Unknown block transactionsRoot'],
-    },
-    uncles: {
-      type: Array,
-      required: [true, 'Unknown block uncles'],
     },
   },
   { versionKey: false, timestamps: false },
 )
 
+//  Joi Schema
+// const joiSchema = Joi.object({
+//   name: Joi.string().required(),
+//   email: Joi.string().email({
+//     minDomainSegments: 2,
+//     tlds: { allow: ['com', 'net', 'ru', 'ua', 'uk', 'org', 'ca'] },
+//   }),
+//   phone: Joi.string(),
+//   favorite: Joi.boolean(),
+// })
+
 const Transaction = model('transaction', transactionSchema)
 
 module.exports = Transaction
 
+// With Joi Schema
+// module.exports = {
+//   Transaction,
+//   joiSchema,
+// }
+
 // // transaction schema
+
+// Block Schema
 // const transactionSchema = Schema(
 //   {
-//     // _id: {
-//     //   type: SchemaTypes.ObjectId,
-//     //   required: [true, 'Unknown transaction id'],
-//     // },
-//     blockHash: {
+//     baseFeePerGas: {
 //       type: String,
-//       required: [true, 'Unknown transaction blockHash'],
-//       trim: true,
 //     },
-//     blockNumber: {
+//     difficulty: {
 //       type: String,
-//       required: [true, 'Unknown transaction blockNumber'],
+//       required: [true, 'Unknown block difficulty'],
 //     },
-//     from: {
+//     extraData: {
 //       type: String,
-//       required: [true, 'Unknown transaction from'],
+//       required: [true, 'Unknown block extraData'],
 //     },
-//     gas: {
+//     gasLimit: {
 //       type: String,
-//       required: [true, 'Unknown transaction gas'],
+//       required: [true, 'Unknown block gasLimit'],
 //     },
-//     gasPrice: {
+//     gasUsed: {
 //       type: String,
-//       required: [true, 'Unknown transaction gasPrice'],
-//     },
-//     maxFeePerGas: {
-//       type: String,
-//       // required: [true, 'Unknown transaction maxFeePerGas'],
-//     },
-//     maxPriorityFeePerGas: {
-//       type: String,
-//       // required: [true, 'Unknown transaction maxPriorityFeePerGas'],
+//       required: [true, 'Unknown block gasUsed'],
 //     },
 //     hash: {
 //       type: String,
-//       required: [true, 'Unknown transaction hash'],
+//       required: [true, 'Unknown block hash'],
 //     },
-//     input: {
+//     logsBloom: {
 //       type: String,
-//       required: [true, 'Unknown transaction input'],
+//       required: [true, 'Unknown block logsBloom'],
+//     },
+//     miner: {
+//       type: String,
+//       required: [true, 'Unknown block miner'],
+//     },
+//     mixHash: {
+//       type: String,
+//       required: [true, 'Unknown block mixHash'],
 //     },
 //     nonce: {
 //       type: String,
-//       required: [true, 'Unknown transaction nonce'],
+//       required: [true, 'Unknown block nonce'],
 //     },
-//     to: {
+//     number: {
 //       type: String,
-//       // required: [true, 'Unknown transaction to'],
+//       required: [true, 'Unknown block number'],
 //     },
-//     transactionIndex: {
+//     parentHash: {
 //       type: String,
-//       required: [true, 'Unknown transaction transactionIndex'],
+//       required: [true, 'Unknown block parentHash'],
 //     },
-//     value: {
+//     receiptsRoot: {
 //       type: String,
-//       required: [true, 'Unknown transaction value'],
+//       required: [true, 'Unknown block receiptsRoot'],
 //     },
-//     type: {
+//     sha3Uncles: {
 //       type: String,
-//       required: [true, 'Unknown transaction type'],
+//       required: [true, 'Unknown block sha3Uncles'],
 //     },
-//     accessList: {
+//     size: {
 //       type: Array,
-//       required: [true, 'Unknown transaction accessList'],
+//       required: [true, 'Unknown block size'],
 //     },
-//     chainId: {
+//     stateRoot: {
 //       type: String,
-//       // required: [true, 'Unknown transaction chainId'],
+//       required: [true, 'Unknown block stateRoot'],
 //     },
-//     v: {
+//     timestamp: {
 //       type: String,
+//       required: [true, 'Unknown block timestamp'],
 //     },
-//     r: {
+//     totalDifficulty: {
 //       type: String,
+//       required: [true, 'Unknown block totalDifficulty'],
 //     },
-//     s: {
+//     transactions: {
+//       type: Array,
+//       required: [true, 'Unknown block transactions array'],
+//     },
+//     transactionsRoot: {
 //       type: String,
+//       required: [true, 'Unknown block transactionsRoot'],
+//     },
+//     uncles: {
+//       type: Array,
+//       required: [true, 'Unknown block uncles'],
 //     },
 //   },
 //   { versionKey: false, timestamps: false },
