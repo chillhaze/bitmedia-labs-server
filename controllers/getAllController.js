@@ -18,45 +18,35 @@ const getAllController = async (req, res) => {
   )
 
   const blockNumberInfo = data.result
-  // console.log(blockNumberInfo)
 
-  // const count = await Transaction.count()
-  const previousTransaction = await Transaction.findOne({})
+  const count = await Transaction.count()
+  // const previousTransaction = await Transaction.findOne({})
 
-  if (previousTransaction.blockNumber !== recentBlockNumber) {
-    console.log('collection is differ!')
+  // await Transaction.deleteMany({
+  //   number: previousTransaction.number,
+  // })
 
+  if (count >= 10) {
+    const firstTransaction = await Transaction.findOne({})
     await Transaction.deleteMany({
-      blockNumber: previousTransaction.blockNumber,
-    })
-
-    await Transaction.insertMany(blockNumberInfo)
-    // await Transaction.deleteMany({
-    //   blockNumber: '0xd825cb',
-    // })
-
-    const result = await Transaction.find({})
-
-    res.status(200).json({
-      status: 'success',
-      code: 200,
-      data: {
-        result,
-      },
-    })
-  } else {
-    await Transaction.insertMany(blockNumberInfo)
-
-    const result = await Transaction.find({})
-
-    res.status(200).json({
-      status: 'success',
-      code: 200,
-      data: {
-        result,
-      },
+      number: firstTransaction.number,
     })
   }
+
+  await Transaction.insertMany(blockNumberInfo)
+  // await Transaction.deleteMany({
+  //   blockNumber: '0xd825cb',
+  // })
+
+  const result = await Transaction.find({})
+
+  res.status(200).json({
+    status: 'success',
+    code: 200,
+    data: {
+      result,
+    },
+  })
 }
 
 module.exports = getAllController
