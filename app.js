@@ -18,7 +18,7 @@ app.use(express.json())
 // deleteAllTransactions()
 
 // Start load DB with getRecentBlockRecursion func
-getRecentBlockRecursion()
+// getRecentBlockRecursion()
 
 // Routes
 app.use('/api/transactions', transactionsRouter)

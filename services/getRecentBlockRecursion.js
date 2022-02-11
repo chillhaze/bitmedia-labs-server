@@ -34,7 +34,7 @@ async function getRecentBlockRecursion() {
     console.log('Total transactions count in DB', count)
 
     // Change integer to delete old transactions
-    const blockNumberToDelete = hexToDecConvert(recentBlockNumber) - 10
+    const blockNumberToDelete = hexToDecConvert(recentBlockNumber) - 5
 
     recentBlockTransactions.map(async item => {
       if (count === 0 && item.to) {

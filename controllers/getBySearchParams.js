@@ -10,9 +10,6 @@ const getBySearchParams = async (req, res) => {
     case 'transactionId':
       filter = 'transactionId'
       break
-    case 'blockNumber':
-      filter = 'blockNumber'
-      break
 
     default:
       break

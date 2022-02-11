@@ -9,7 +9,13 @@ const getTransactions = async (req, res) => {
   const result = await Transaction.find({}, '', {
     skip,
     limit: Number(pageItemsLimit),
-  })
+  }).sort({ createdAt: -1 })
+
+  if (!result) {
+    const error = new Error(`Transactions not found.`)
+    error.status = 404
+    throw error
+  }
 
   res.status(200).json({
     status: 'success',
