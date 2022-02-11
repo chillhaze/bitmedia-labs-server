@@ -1,7 +1,7 @@
 const express = require('express')
-// const mongoose = require('mongoose')
 const cors = require('cors')
 const logger = require('morgan')
+const { getRecentBlockRecursion, deleteAllTransactions } = require('./services')
 
 const transactionsRouter = require('./routes/api/transactions')
 
@@ -14,26 +14,14 @@ app.use(logger(formatsLogger))
 app.use(cors())
 app.use(express.json())
 
+// Function to delete all transactions in collection
+// deleteAllTransactions()
+
+// Start load DB with getRecentBlockRecursion func
+getRecentBlockRecursion()
+
 // Routes
 app.use('/api/transactions', transactionsRouter)
-
-// const { DB_HOST, PORT = 3000 } = process.env
-
-// mongoose
-//   .connect(DB_HOST)
-//   .then(() => {
-//     app.listen(PORT)
-//     console.log('BitLab Database connected')
-//     console.log('Server running on port 3000')
-//   })
-//   .catch(err => {
-//     console.log(err.message)
-//     process.exit(1)
-//   })
-
-// app.use((req, res) => {
-//   res.status(404).json({ message: 'Nothing found.' })
-// })
 
 app.use((err, req, res, next) => {
   const { status = 500, message = 'Server error' } = err

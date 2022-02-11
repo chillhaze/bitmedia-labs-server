@@ -1,7 +1,7 @@
-const getAllController = require('./getAllController')
-const getByIdController = require('./getByIdController')
+const getTransactions = require('./getTransactions')
+const getBySearchParams = require('./getBySearchParams')
 
 module.exports = {
-  getAllController,
-  getByIdController,
+  getTransactions,
+  getBySearchParams,
 }
