@@ -8,10 +8,17 @@ const getTransactions = async (req, res) => {
   const skip = (currentPage - 1) * pageItemsLimit
 
   const count = await Transaction.count()
-  const transactions = await Transaction.find({}, '', {
-    skip,
-    limit: Number(pageItemsLimit),
-  }).sort({ createdAt: -1 })
+  const transactions = await Transaction.find(
+    {},
+    '',
+    {
+      skip,
+      limit: Number(pageItemsLimit),
+    },
+    {
+      allowDiskUse: true,
+    },
+  ).sort({ createdAt: -1 })
 
   if (!transactions) {
     const error = new Error(`Transactions not found.`)
