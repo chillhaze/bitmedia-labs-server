@@ -4,7 +4,7 @@ const hexToDecConvert = require('../utils/hexToDecConvert')
 
 const getBlockByNumber = async (req, res) => {
   let { filter, searchQuery, currentPage, pageItemsLimit } = req.query
-  // console.log(filter, searchQuery, currentPage, pageItemsLimit)
+  console.log(filter, searchQuery, currentPage, pageItemsLimit)
   const skip = (currentPage - 1) * pageItemsLimit
 
   const transactions = await Transaction.find(
