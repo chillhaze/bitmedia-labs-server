@@ -1,11 +1,13 @@
 const { Transaction } = require('../models')
+const { getRecentBlockNumber } = require('../services')
+const hexToDecConvert = require('../utils/hexToDecConvert')
 
 const getBlockByNumber = async (req, res) => {
   let { filter, searchQuery, currentPage, pageItemsLimit } = req.query
-  console.log(filter, searchQuery, currentPage, pageItemsLimit)
+  // console.log(filter, searchQuery, currentPage, pageItemsLimit)
   const skip = (currentPage - 1) * pageItemsLimit
 
-  const result = await Transaction.find(
+  const transactions = await Transaction.find(
     {
       blockNumber: Number(searchQuery),
     },
@@ -16,13 +18,20 @@ const getBlockByNumber = async (req, res) => {
     },
   ).sort({ createdAt: -1 })
 
-  if (!result) {
+  if (!transactions) {
     const error = new Error(`Transactions not found.`)
     error.status = 404
     throw error
   }
 
   const count = await Transaction.count({ blockNumber: Number(searchQuery) })
+  const recentBlockNumber = await getRecentBlockNumber()
+
+  const result = transactions.map(item => {
+    item.blockConfirmations =
+      hexToDecConvert(recentBlockNumber) - item.blockNumber
+    return item
+  })
 
   res.status(200).json({
     status: 'success',

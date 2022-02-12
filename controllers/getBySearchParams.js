@@ -1,4 +1,6 @@
 const { Transaction } = require('../models')
+const { getRecentBlockNumber } = require('../services')
+const hexToDecConvert = require('../utils/hexToDecConvert')
 
 const getBySearchParams = async (req, res) => {
   let { filter, searchQuery } = req.query
@@ -29,6 +31,9 @@ const getBySearchParams = async (req, res) => {
     throw error
   }
 
+  const recentBlockNumber = await getRecentBlockNumber()
+  searchedElement.blockConfirmations =
+    hexToDecConvert(recentBlockNumber) - searchedElement.blockNumber
   const result = [searchedElement]
   const count = result.length
 
