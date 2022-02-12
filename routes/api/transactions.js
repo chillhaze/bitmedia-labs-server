@@ -12,8 +12,11 @@ const {
 // use validation middleware with post/put requests - validation(joiSchema)
 // router.post('/', validation(joiSchema), ctrlWrapper(getAllController))
 
-router.get('/', ctrlWrapper(getTransactions))
-router.get('/search', ctrlWrapper(getBySearchParams))
-router.get('/searchByBlockNumber', ctrlWrapper(getBlockByNumber))
+router.get('api/transactions', ctrlWrapper(getTransactions))
+router.get('api/transactions/search', ctrlWrapper(getBySearchParams))
+router.get(
+  'api/transactions/searchByBlockNumber',
+  ctrlWrapper(getBlockByNumber),
+)
 
 module.exports = router

@@ -21,7 +21,7 @@ app.use(express.json())
 getRecentBlockRecursion()
 
 // Routes
-app.use('/api/transactions', transactionsRouter)
+app.use('/', transactionsRouter)
 
 app.use((err, req, res, next) => {
   const { status = 500, message = 'Server error' } = err
