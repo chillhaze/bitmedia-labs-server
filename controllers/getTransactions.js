@@ -25,6 +25,11 @@ const getTransactions = async (req, res) => {
       $match: {},
     },
     {
+      $sort: {
+        createdAt: -1,
+      },
+    },
+    {
       $skip: skip,
     },
     {
