@@ -14,7 +14,7 @@ const getTransactions = async (req, res) => {
     limit: Number(pageItemsLimit),
   })
     .sort({ createdAt: -1 })
-    .allowDiskUse()
+    .allowDiskUse(true)
 
   if (!transactions) {
     const error = new Error(`Transactions not found.`)
