@@ -30,12 +30,7 @@ const getTransactions = async (req, res) => {
     {
       $limit: Number(pageItemsLimit),
     },
-    {
-      $sort: {
-        createdAt: 1,
-      },
-    },
-  ])
+  ]).sort({ createdAt: -1 })
 
   if (!transactions) {
     const error = new Error(`Transactions not found.`)
