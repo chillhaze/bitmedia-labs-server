@@ -32,7 +32,7 @@ const getTransactions = async (req, res) => {
     },
     {
       $sort: {
-        createdAt: -1,
+        createdAt: 1,
       },
     },
   ])
