@@ -14,7 +14,7 @@ app.use(logger(formatsLogger))
 app.use(cors())
 app.use(express.json())
 
-// Function to delete all transactions in collection
+// Use to delete all transactions in collection
 // deleteAllTransactions()
 
 // Start load DB with getRecentBlockRecursion func

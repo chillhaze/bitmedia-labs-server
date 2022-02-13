@@ -7,7 +7,8 @@ const getTransactions = async (req, res) => {
   const { currentPage, pageItemsLimit } = req.query
   const skip = (currentPage - 1) * pageItemsLimit
 
-  const count = await Transaction.count()
+  const transactionsCount = await Transaction.count()
+  const count = transactionsCount - 1000
   const transactions = await Transaction.find({}, '', {
     skip,
     limit: Number(pageItemsLimit),
