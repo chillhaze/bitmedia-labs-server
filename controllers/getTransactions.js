@@ -7,14 +7,18 @@ const getTransactions = async (req, res) => {
   const { currentPage, pageItemsLimit } = req.query
   const skip = (currentPage - 1) * pageItemsLimit
 
+  // Get Transactions total count
   const transactionsCount = await Transaction.count()
+
+  // To prevent empty last page caused by oldest block deletion
   const count = transactionsCount - 1000
+
+  // Get all Transactions and sort. allowDiskUse working only with paid cluster
   const transactions = await Transaction.find({}, '', {
     skip,
     limit: Number(pageItemsLimit),
-  })
-    .sort({ createdAt: -1 })
-    .allowDiskUse(true)
+  }).sort({ createdAt: -1 })
+  // .allowDiskUse(true)
 
   if (!transactions) {
     const error = new Error(`Transactions not found.`)
