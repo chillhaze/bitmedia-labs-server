@@ -7,16 +7,35 @@ const getBlockByNumber = async (req, res) => {
   console.log(filter, searchQuery, currentPage, pageItemsLimit)
   const skip = (currentPage - 1) * pageItemsLimit
 
-  const transactions = await Transaction.find(
+  // const transactions = await Transaction.find(
+  //   {
+  //     blockNumber: Number(searchQuery),
+  //   },
+  //   '',
+  //   {
+  //     skip,
+  //     limit: Number(pageItemsLimit),
+  //   },
+  // ).sort({ createdAt: -1 })
+
+  const transactions = await Transaction.aggregate([
     {
-      blockNumber: Number(searchQuery),
+      $match: {
+        blockNumber: Number(searchQuery),
+      },
     },
-    '',
     {
-      skip,
-      limit: Number(pageItemsLimit),
+      $sort: {
+        createdAt: -1,
+      },
     },
-  ).sort({ createdAt: -1 })
+    {
+      $skip: skip,
+    },
+    {
+      $limit: Number(pageItemsLimit),
+    },
+  ]).sort({ createdAt: -1 })
 
   if (!transactions) {
     const error = new Error(`Transactions not found.`)
